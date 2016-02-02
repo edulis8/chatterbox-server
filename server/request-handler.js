@@ -122,6 +122,7 @@ var requestHandler = function(request, response) {
   //   {username: 'yoda', message: 'there is no try'}]});
 
   console.log('dataArray', dataArray);
+  console.log('dataArray results 0 username', (dataArray.results[0]));
 
   var stringifiedDataArray = JSON.stringify(dataArray);
 
