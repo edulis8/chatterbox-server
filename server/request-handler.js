@@ -147,4 +147,4 @@ var defaultCorsHeaders = {
 
 var dataArray = {results: []};
 
-module.exports = requestHandler;
+exports.requestHandler = requestHandler;
