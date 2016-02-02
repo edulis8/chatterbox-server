@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>chatterbox</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <script src="bower_components/jquery/jquery.min.js"></script>
+    <!-- <script src="bower_components/moment.js"></script>
+     <script src="bower_components/livestamp.min.js"></script>-->
+
+    <!-- dependencies -->
+    <script src="bower_components/underscore/underscore-min.js"></script>
+    <!-- your scripts -->
+     <script src="env/config.js"></script>
+    <script src="scripts/app.js"></script>
+  </head>
+  <body>
+    <div id="main">
+      <h1>chatterbox</h1></br>
+      Chat rooms: <select class="rooms" id="roomSelect"></select>
+      <input type="text" id="addRoom" placeholder="Create your own chat room">
+      <button type="button" id="addRoomButton">Add</button></br>
+      <!-- Your HTML goes here! -->
+      <!-- pend the messages here -->         
+      <input type="text" id="mymessagebody" placeholder="What do you wanna say?">
+      <input type="submit" class="submit" id="send" value="Submit">
+      <div id="chats" class="messageBoard"></div>
+      </div>
+
+    
+
+    </div>
+  </body>
+</html>
