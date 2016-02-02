@@ -13,12 +13,17 @@ this file and include it in basic-server.js so that it actually works.
 **************************************************************/
 
 var requestHandler = function(request, response) {
+
   // Request and Response come from node's http module.
   //
   // They include information about both the incoming request, such as
-  // headers and URL, and about the outgoing response, such as its status
+  // headers and URL, 
+
+  // and about the outgoing response, such as its status
   // and content.
-  //
+
+
+  
   // Documentation for both request and response can be found in the HTTP section at
   // http://nodejs.org/documentation/api/
 
@@ -28,6 +33,9 @@ var requestHandler = function(request, response) {
   // debugging help, but you should always be careful about leaving stray
   // console.logs in your code.
   console.log("Serving request type " + request.method + " for url " + request.url);
+  
+  
+
 
   // The outgoing status.
   var statusCode = 200;
@@ -41,6 +49,61 @@ var requestHandler = function(request, response) {
   // other than plain text, like JSON or HTML.
   headers['Content-Type'] = "text/plain";
 
+
+  ///////////// OPTIONS /////////////////////////////
+  if(request.method === 'OPTIONS'){
+    headers["Allow"] = 'HEAD,GET,PUT,DELETE,OPTIONS';
+    
+    response.writeHead(statusCode, headers);
+    response.end("Hello, World!");
+    return;
+  }
+
+  ///////// 404 /////////////////////////////////
+  console.log('request url second char', request.url[1]);
+  if(request.url[1] !== 'c'){
+    var badCode = 404;
+    response.writeHead(badCode, headers);
+    response.end("404 error from server");
+    return;
+  }
+
+  ///////////////// POST //////////////////////////////
+  if(request.method == 'POST'){
+    statusCode = 201;
+
+    var body = '';
+  // we want to get the data as utf8 strings
+  // If you don't set an encoding, then you'll get Buffer objects
+    request.setEncoding('utf8');
+
+  // Readable streams emit 'data' events once a listener is added
+    request.on('data', function(chunk) {
+      body += chunk;
+      console.log('chunk', chunk);
+    });
+
+  // the end event tells you that you have entire body
+    request.on('end', function(){
+      console.log('END inside POST');
+      console.log('body', body);
+
+      
+      var data = JSON.parse(body);
+      console.log('data',data);
+
+      dataArray.results.push(data);
+
+      response.writeHead(statusCode, headers);
+      response.end(body);
+      });
+
+    
+    return;
+  }
+  
+  ////////////////////////////////////
+
   // .writeHead() writes to the request line and headers of the response,
   // which includes the status and all headers.
   response.writeHead(statusCode, headers);
@@ -52,7 +115,17 @@ var requestHandler = function(request, response) {
   //
   // Calling .end "flushes" the response's internal buffer, forcing
   // node to actually send all the data over to the client.
-  response.end("Hello, World!");
+
+  // var sendBack = ({
+  //   results : 
+  //   [{username: 'Jono',message: 'Do my bidding!'},
+  //   {username: 'yoda', message: 'there is no try'}]});
+
+  console.log('dataArray', dataArray);
+
+  var stringifiedDataArray = JSON.stringify(dataArray);
+
+  response.end(stringifiedDataArray);
 };
 
 // These headers will allow Cross-Origin Resource Sharing (CORS).
@@ -71,3 +144,7 @@ var defaultCorsHeaders = {
   "access-control-max-age": 10 // Seconds.
 };
 
+
+var dataArray = {results: []};
+
+module.exports = requestHandler;
