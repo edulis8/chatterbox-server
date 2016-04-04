@@ -27,8 +27,10 @@ It has an extensive architecture to potentially handle as many endpoint as neces
 ## Installation
 
 The project relies on bower and npm for external dependencies. In the root directory, run:
-- `bower install`
-- `npm install`
+
+ `bower install`
+ 
+`npm install`
 
 To run the server, use `node basic-server.js` and open the client/index.html file with your browser.
 In particular:
